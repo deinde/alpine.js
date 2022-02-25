@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <style>
+        .delete:hover {
+            cursor: pointer;
+        }
+
+        .completed {
+            text-decoration: line-through;
+        }
+    </style>
+    <script>
+        const validation = (e) => {
+            // console.log("What is this!--->", e.target.parentElement.parentElement);
+            let that = this;
+            that = e.target.parentElement.parentElement
+            console.dir(that.attributes[0]);
+            // if (that.userInput != '') {
+            //     this.accept = !this.accept
+            // }
+        }
+    </script>
+</head>
+
+<body>
+    <div x-data="{todos:[],userInput:'',accept:true}">
+        <form x-on:submit.prevent>
+            <input x-model="userInput" placeholder="Enter Todo Item" type="text">
+            <button x-on:click="if(userInput.trim().length > 0){
+                    todos.push({name:userInput, completed:false}),userInput=''
+                }">Add</button>
+            <p x-text="userInput"></p>
+        </form>
+        <template x-for="todo in todos">
+            <div>
+                <h1>
+                    <input type="checkbox" x-model="todo.completed" />
+                    <span x-text="todo.name" x-bind:class="{completed:todo.completed == true}"></span>
+                    <button @click="todos = todos.filter((tx)=>tx != todo)" class="delete">X</button>
+                </h1>
+            </div>
+
+        </template>
+        <button x-show="todos.length" @click="todos=[]">Clear Todos</button>
+        <div>
+            <span x-text="todos.filter((td)=>  td.completed).length"></span> completed/
+            <span x-text="todos.length"></span>
+        </div>
+    </div>
+</body>
+
+</html>
